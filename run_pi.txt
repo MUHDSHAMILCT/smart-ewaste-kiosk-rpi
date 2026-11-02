@@ -1,0 +1,21 @@
+# 1. Navigate to your project directory
+cd "d:/e/Kites Robotics/Assis projects/Raspberry"
+# (Or on Raspberry Pi: cd ~/Raspberry)
+
+# 2. Initialize git repository
+git init
+
+# 3. Add all valid files (the .gitignore will automatically skip secrets & db)
+git add .
+
+# 4. Create your initial commit
+git commit -m "feat: initial commit of Encycle Bank e-waste kiosk system"
+
+# 5. Rename branch to main
+git branch -M main
+
+# 6. Link to your GitHub repository (replace with your actual URL)
+git remote add origin https://github.com/<your-username>/encycle-bank-kiosk.git
+
+# 7. Push to GitHub
+git push -u origin main

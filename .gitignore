@@ -1,0 +1,68 @@
+# =====================================================================
+# Git Ignore for Encycle Bank / Raspberry Pi E-Waste Kiosk
+# =====================================================================
+
+# Environment variables & secrets (CRITICAL: Do NOT commit credentials)
+.env
+*.env.local
+*.env.production
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Database (keep schema in code, don't commit dynamic live SQLite data)
+database/*.db
+database/*.sqlite
+database/*.sqlite3
+*.db
+*.sqlite
+*.sqlite3
+
+# Runtime user uploaded images & test storage
+storage/profiles/*
+!storage/profiles/.gitkeep
+storage/captures/*
+storage/receipts/*
+storage/test_*.jpg
+storage/*.jpg
+storage/*.png
+
+# Rendered files / large binary outputs
+documentation_rendered.html
+*.pdf
+
+# Operating System files
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+
+# IDE configurations
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace

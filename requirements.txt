@@ -1,0 +1,29 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+# Encycle Bank System — Raspberry Pi Dependencies
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# ─── Core Web Application ─────────────────────────────────────────────────────
+flask>=3.0.0
+Werkzeug>=3.0.0
+python-dotenv>=1.0.0
+requests>=2.31.0
+
+# ─── Image Processing ─────────────────────────────────────────────────────────
+Pillow>=10.0.0
+
+# ─── Serial Communication (Arduino fallback option) ───────────────────────────
+pyserial>=3.5
+
+# ─── Hardware Notice for Raspberry Pi OS ──────────────────────────────────────
+# On Raspberry Pi OS (Bullseye & Bookworm), install hardware modules via apt
+# rather than pip to ensure proper C/C++ hardware bindings:
+#
+#   sudo apt install -y python3-picamera2 python3-gpiozero python3-rpi-lgpio python3-pigpio pigpio
+#
+# When creating your venv, use the --system-site-packages flag:
+#   python3 -m venv --system-site-packages venv
+#
+# (Optional) If you prefer pip-managed GPIO packages:
+# pigpio>=1.78
+# RPi.GPIO>=0.7.1
+# gpiozero>=2.0

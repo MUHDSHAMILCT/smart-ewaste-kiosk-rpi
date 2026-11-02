@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Encycle Bank — Raspberry Pi Kiosk Documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  @page {
+    size: A4;
+    margin: 18mm 16mm 18mm 16mm;
+    @bottom-center {
+      content: "Encycle Bank — Kites Robotics";
+      font-family: 'Inter', sans-serif;
+      font-size: 8pt;
+      color: #94a3b8;
+    }
+    @bottom-right {
+      content: counter(page);
+      font-family: 'Inter', sans-serif;
+      font-size: 8pt;
+      color: #64748b;
+    }
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: 10pt;
+    line-height: 1.65;
+    color: #1e293b;
+    background-color: #ffffff;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Headings */
+  h1, h2, h3, h4 {
+    font-family: 'Outfit', 'Inter', sans-serif;
+    color: #0f172a;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-top: 1.6em;
+    margin-bottom: 0.5em;
+  }
+
+  h1 {
+    font-size: 22pt;
+    font-weight: 800;
+    color: #065f46;
+    border-bottom: 2.5px solid #10b981;
+    padding-bottom: 6px;
+    margin-top: 0;
+    page-break-before: always;
+  }
+
+  h1:first-of-type {
+    page-break-before: avoid;
+  }
+
+  h2 {
+    font-size: 15pt;
+    color: #047857;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 4px;
+    margin-top: 24px;
+    page-break-after: avoid;
+  }
+
+  h3 {
+    font-size: 12pt;
+    color: #0f172a;
+    margin-top: 18px;
+    page-break-after: avoid;
+  }
+
+  h4 {
+    font-size: 10.5pt;
+    color: #334155;
+    margin-top: 12px;
+    page-break-after: avoid;
+  }
+
+  p, li {
+    color: #334155;
+    margin-bottom: 0.6em;
+  }
+
+  ul, ol {
+    padding-left: 20px;
+    margin-top: 0.4em;
+    margin-bottom: 0.8em;
+  }
+
+  li {
+    margin-bottom: 4px;
+  }
+
+  strong {
+    color: #0f172a;
+    font-weight: 600;
+  }
+
+  /* Cover Page */
+  .cover-page {
+    height: 100vh;
+    min-height: 250mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 30mm 10mm 20mm 10mm;
+    page-break-after: always;
+  }
+
+  .cover-badge {
+    background: #ecfdf5;
+    color: #059669;
+    border: 1px solid #10b981;
+    font-weight: 700;
+    font-size: 9.5pt;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 9999px;
+    margin-bottom: 20px;
+  }
+
+  .cover-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 32pt;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.15;
+    margin: 0 0 12px 0;
+  }
+
+  .cover-title span {
+    color: #059669;
+  }
+
+  .cover-subtitle {
+    font-size: 13.5pt;
+    color: #475569;
+    max-width: 620px;
+    line-height: 1.5;
+    margin-bottom: 30px;
+  }
+
+  .cover-meta {
+    margin-top: auto;
+    border-top: 2px solid #e2e8f0;
+    padding-top: 18px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    font-size: 9.5pt;
+    color: #64748b;
+  }
+
+  .cover-meta strong {
+    display: block;
+    color: #0f172a;
+    font-size: 10pt;
+    margin-bottom: 2px;
+  }
+
+  /* ASCII & Architectural Schematics */
+  pre {
+    background: #0f172a;
+    color: #38bdf8;
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-family: 'JetBrains Mono', Consolas, monospace;
+    font-size: 8pt;
+    line-height: 1.4;
+    overflow-x: auto;
+    margin: 12px 0;
+    border: 1px solid #1e293b;
+    page-break-inside: avoid;
+  }
+
+  code {
+    font-family: 'JetBrains Mono', Consolas, monospace;
+    font-size: 8.5pt;
+    background: #f1f5f9;
+    color: #047857;
+    padding: 1.5px 5px;
+    border-radius: 4px;
+    border: 1px solid #e2e8f0;
+  }
+
+  pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+    border: none;
+    font-size: inherit;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0;
+    font-size: 9pt;
+    page-break-inside: avoid;
+  }
+
+  th, td {
+    padding: 7px 10px;
+    border: 1px solid #cbd5e1;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  th {
+    background-color: #065f46;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 8.5pt;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f8fafc;
+  }
+
+  /* Callouts & Quotes */
+  blockquote {
+    border-left: 4px solid #10b981;
+    background: #f0fdf4;
+    padding: 8px 14px;
+    margin: 14px 0;
+    border-radius: 0 6px 6px 0;
+    color: #166534;
+    font-size: 9.5pt;
+    page-break-inside: avoid;
+  }
+
+  blockquote p {
+    margin: 0;
+    color: inherit;
+  }
+
+  /* Dividers */
+  hr {
+    border: none;
+    border-top: 1px solid #e2e8f0;
+    margin: 20px 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- Front Cover -->
+<div class="cover-page">
+  <div class="cover-badge">Kites Robotics Technical Documentation</div>
+  <h1 class="cover-title">Encycle <span>Bank</span></h1>
+  <div class="cover-subtitle">
+    Autonomous Smart E-Waste Collection & Recycling Touchscreen Kiosk System.<br>
+    Dedicated Raspberry Pi Architecture, Hardware Schematics, Operations & Feature Extensions.
+  </div>
+
+  <div class="cover-meta">
+    <div>
+      <strong>Organization:</strong> Kites Robotics — Sustainable Waste Tech
+    </div>
+    <div>
+      <strong>Document Version:</strong> 3.0.0 (Raspberry Pi Edition)
+    </div>
+    <div>
+      <strong>Compute Architecture:</strong> Raspberry Pi 4 / 5 Single Board Computer
+    </div>
+    <div>
+      <strong>Date:</strong> October 2026
+    </div>
+  </div>
+</div>
+
+<div class="content-body">
+<h1 id="encycle-bank-smart-e-waste-recycling-kiosk">🌿 ENCYCLE BANK — Smart E-Waste Recycling Kiosk</h1>
+<h3 id="raspberry-pi-edition-technical-operational-documentation">Raspberry Pi Edition — Technical &amp; Operational Documentation</h3>
+<p><strong>Developed for Kites Robotics</strong><br />
+<em>Document Version: 3.0.0 (Raspberry Pi Architecture) | Focus: System Architecture, Operations &amp; Feature Extensions</em></p>
+<hr />
+<h2 id="table-of-contents">📑 Table of Contents</h2>
+<ol>
+<li><a href="#1-project-overview--purpose">Project Overview &amp; Purpose</a></li>
+<li><a href="#2-raspberry-pi-system-architecture">Raspberry Pi System Architecture</a></li>
+<li><a href="#3-hardware-components--pinout-wiring">Hardware Components &amp; Pinout Wiring</a></li>
+<li><a href="#4-software-ecosystem--architecture">Software Ecosystem &amp; Architecture</a></li>
+<li><a href="#5-the-kiosk-user-journey-screens-1-to-7">The Kiosk User Journey (Screens 1 to 7)</a></li>
+<li><a href="#6-ecocredit-reward-system--milestone-bonus">EcoCredit Reward System &amp; Milestone Bonus</a></li>
+<li><a href="#7-digital-notifications-whatsapp--email-receipts">Digital Notifications (WhatsApp &amp; Email Receipts)</a></li>
+<li><a href="#8-raspberry-pi-setup--deployment-guide">Raspberry Pi Setup &amp; Deployment Guide</a></li>
+<li><a href="#9-feature-implementation--expansion-guide">Feature Implementation &amp; Expansion Guide</a><br />
+   - 9.1 AI Computer Vision E-Waste Classifier (YOLO / TFLite)<br />
+   - 9.2 Precision Weight Measurement (HX711 Digital Scale)<br />
+   - 9.3 RFID / NFC Smart Card Tap-to-Recycle<br />
+   - 9.4 Instant Cashback via UPI / Digital Wallet<br />
+   - 9.5 Central Cloud Dashboard &amp; Fleet Synchronization</li>
+<li><a href="#10-owner-administration-maintenance--diagnostics">Owner Administration, Maintenance &amp; Diagnostics</a></li>
+</ol>
+<hr />
+<h2 id="1-project-overview-purpose">1. Project Overview &amp; Purpose</h2>
+<h3 id="11-the-challenge">1.1 The Challenge</h3>
+<p>Electronic waste is expanding at three times the rate of average municipal solid waste. Obsolete smartphones, damaged circuit boards, laptop adapters, and cracked tablets frequently end up in domestic landfills or remain forgotten in households because recycling facilities are inconvenient, lack immediate feedback, and offer no tangible rewards.</p>
+<h3 id="12-the-solution">1.2 The Solution</h3>
+<p><strong>Encycle Bank</strong> is an autonomous, touchscreen-based smart e-waste collection kiosk powered entirely by a <strong>Raspberry Pi</strong>. It provides an interactive deposit experience:<br />
+- <strong>Instant Authentication</strong>: Quick access using a mobile phone number or email with one-time verification.<br />
+- <strong>Visual Inspection</strong>: High-resolution camera preview and photo verification of deposited electronics.<br />
+- <strong>Automated Trapdoor</strong>: Motorized collection door controlled directly by the Raspberry Pi that unlocks upon verification, stays open for 15 seconds, and automatically secures the intake bin.<br />
+- <strong>EcoCredit Rewards</strong>: Users earn reward points based on device condition and earn milestone bonuses for long-term recycling.<br />
+- <strong>Paperless Receipts</strong>: Instant WhatsApp notifications and HTML email certificates sent directly to the user's phone.</p>
+<hr />
+<h2 id="2-raspberry-pi-system-architecture">2. Raspberry Pi System Architecture</h2>
+<p>The entire kiosk operates autonomously on a single <strong>Raspberry Pi 4 Model B or Raspberry Pi 5</strong>. No auxiliary microcontrollers or external PCs are required.</p>
+<pre><code>┌────────────────────────────────────────────────────────────────────────┐
+│                        ENCYCLE BANK KIOSK                              │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│   [ 🖥️ Touchscreen Display ] ◄──► [ 🌐 Chromium Kiosk Browser ]        │
+│                                                   │                    │
+│                                                   ▼                    │
+│   [ 📷 Camera Sensor ]       ◄──► [ 🐍 Python Flask Backend ]          │
+│   (RPi CSI Cam / USB Webcam)                      │                    │
+│                                                   ▼                    │
+│   [ ⚙️ Servo Drop Door ]      ◄──► [ ⚡ Hardware PWM (pigpio) ]         │
+│   (Connected to GPIO 18)                          │                    │
+│                                                   ▼                    │
+│                                   [ 🗄️ SQLite 3 Database ]             │
+│                                                   │                    │
+│                                                   ▼                    │
+│                        [ ☁️ Cloud Gateways: WhatsApp &amp; Email ]          │
+│                                                                        │
+└────────────────────────────────────────────────────────────────────────┘
+</code></pre>
+<h3 id="how-the-subsystems-interact">How the Subsystems Interact:</h3>
+<ol>
+<li><strong>Frontend Interface</strong>: A responsive HTML5/CSS3 touchscreen application runs in fullscreen mode inside Chromium.</li>
+<li><strong>Backend Engine</strong>: A local Flask web server processes user sessions, coordinates camera frame streams, and logs deposits.</li>
+<li><strong>Hardware Control</strong>: The backend directly drives the servo motor using the Raspberry Pi's hardware pulse-width modulation (PWM) subsystem via <code>pigpio</code> to ensure smooth door movement without jitter.</li>
+<li><strong>Data Persistence</strong>: An embedded SQLite database maintains customer balances, device logs, and system counters with high-performance Write-Ahead Logging (WAL).</li>
+<li><strong>Notification Services</strong>: Asynchronous background workers dispatch WhatsApp messages and emails without delaying the kiosk touch interface.</li>
+</ol>
+<hr />
+<h2 id="3-hardware-components-pinout-wiring">3. Hardware Components &amp; Pinout Wiring</h2>
+<h3 id="31-hardware-bill-of-materials">3.1 Hardware Bill of Materials</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Specification</th>
+<th>Function in Kiosk</th>
+<th>Power Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Single Board Computer</strong></td>
+<td>Raspberry Pi 4 (4GB) or Pi 5</td>
+<td>Central processor running OS, backend, and touch interface</td>
+<td>5.1V / 3.0A USB-C Power Adapter</td>
+</tr>
+<tr>
+<td><strong>Touch Display</strong></td>
+<td>7" DSI Display or 10.1" HDMI Touchscreen</td>
+<td>User display and virtual keyboard touch input</td>
+<td>5V via Pi DSI Ribbon / USB Touch Cable</td>
+</tr>
+<tr>
+<td><strong>Camera Sensor</strong></td>
+<td>Raspberry Pi Camera Module (CSI) or USB UVC Webcam</td>
+<td>Captures proof-of-deposit photos</td>
+<td>Internal CSI (3.3V) or USB (5V)</td>
+</tr>
+<tr>
+<td><strong>Intake Door Motor</strong></td>
+<td>MG996R or MG995 Metal-Gear Servo (11 kg-cm)</td>
+<td>Opens and closes the physical collection door</td>
+<td>External 5V 2A-3A DC Power Supply</td>
+</tr>
+<tr>
+<td><strong>Power Supply</strong></td>
+<td>Dedicated External 5V 3A DC Adapter</td>
+<td>Supplies high current to the servo motor</td>
+<td>110-240V AC Mains</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="32-electrical-wiring-diagram-direct-raspberry-pi-connection">3.2 Electrical Wiring Diagram (Direct Raspberry Pi Connection)</h3>
+<blockquote>
+<p>[!IMPORTANT]<br />
+<strong>Electrical Isolation Rule</strong>: Never power a high-torque metal-gear servo (MG996R) directly from the Raspberry Pi's 5V pins. Moving servos draw up to 2.5 Amps when turning, which drops the Raspberry Pi's input voltage and causes brownouts. Always use a dedicated external 5V supply and connect its ground wire to the Raspberry Pi ground pin (Common Ground).</p>
+</blockquote>
+<pre><code>    EXTERNAL 5V POWER SUPPLY                     RASPBERRY PI 4 / 5 (40-PIN HEADER)
+  ┌───────────────────────────┐                ┌───────────────────────────────────┐
+  │  (+) +5V Positive Output  │───┐            │                                   │
+  │                           │   │            │ Pin 12 (BCM GPIO 18 - PWM Signal) │
+  │  (-) Ground (0V) Output   │─┐ │            │ Pin 6  (GND - Ground Reference)   │
+  └───────────────────────────┘ │ │            └───────┬───────────────────┬───────┘
+                                │ │                    │                   │
+                                │ │                    ▼                   │
+                                │ │   ┌────────────────────────────────┐   │
+                                │ └──►│ Shared Common Ground Connection ├───┘
+                                │     └────────────────────────────────┘
+                                │
+                                ▼
+                     ┌───────────────────────┐
+                     │   MG996R SERVO MOTOR  │
+                     │                       │
+   From Ext +5V ────►│ Red Wire   (Power)    │
+   Common Ground ───►│ Brown Wire (Ground)   │
+   From RPi Pin 12 ─►│ Orange Wire(PWM Signal│
+                     └───────────────────────┘
+</code></pre>
+<h4 id="raspberry-pi-pinout-reference">Raspberry Pi Pinout Reference:</h4>
+<ul>
+<li><strong>Physical Pin 12 (BCM GPIO 18)</strong>: PWM Signal connected to Servo Orange wire.</li>
+<li><strong>Physical Pin 6 (Ground)</strong>: Common Ground connected to Servo Brown wire and Power Supply (-) terminal.</li>
+<li><strong>External Power Supply (+5V)</strong>: Connected directly to Servo Red wire.</li>
+</ul>
+<hr />
+<h2 id="4-software-ecosystem-architecture">4. Software Ecosystem &amp; Architecture</h2>
+<p>The kiosk software is organized into clean, modular layers to ensure reliability on embedded hardware:</p>
+<pre><code>ewaste-kiosk / Raspberry
+├── app.py                     # Central application factory &amp; web server
+├── backend/
+│   ├── database/
+│   │   └── models.py          # SQLite schema, user profiles &amp; device records
+│   ├── hardware/
+│   │   ├── camera.py          # Camera controller (RPi Picamera2 &amp; USB Webcams)
+│   │   └── servo.py           # Hardware PWM motor controller (pigpio / gpiozero)
+│   ├── routes/
+│   │   ├── auth.py            # User sign-in, account creation &amp; OTP verification
+│   │   └── devices.py         # Category selection, photo capture &amp; door trigger
+│   └── services/
+│       ├── whatsapp.py        # UltraMsg WhatsApp receipt &amp; OTP delivery
+│       └── email_service.py   # Gmail SMTP digital certificate delivery
+├── frontend/
+│   ├── templates/index.html   # Single-Page Touchscreen Kiosk Interface
+│   └── static/
+│       ├── css/kiosk.css      # Dark Industrial Eco-Theme styling
+│       └── js/
+│           ├── keyboard.js    # On-screen touch QWERTY &amp; Numpad keyboard
+│           └── app.js         # Screen transitions, state management &amp; API hooks
+├── storage/                   # Saved device photos organized by user ID
+└── scripts/
+    ├── setup_pi.sh            # 1-command installation script for Raspberry Pi OS
+    └── run_pi_kiosk.sh        # Manual testing launcher
+</code></pre>
+<hr />
+<h2 id="5-the-kiosk-user-journey-screens-1-to-7">5. The Kiosk User Journey (Screens 1 to 7)</h2>
+<p>The kiosk interface consists of seven sequential screens optimized for touchscreens:</p>
+<pre><code>[Screen 1] Attract Screen ──► [Screen 2] Sign-In ──► [Screen 3] OTP Verification
+                                                            │
+[Screen 6] Review Summary ◄── [Screen 5] Camera ◄── [Screen 4] Category &amp; Stage
+         │
+         ▼
+[Screen 7] Success Modal + Trapdoor Opens + Digital Receipt Sent
+</code></pre>
+<h3 id="screen-1-ambient-attract-mode">Screen 1: Ambient Attract Mode</h3>
+<ul>
+<li><strong>Purpose</strong>: Displays welcome graphics, environmental impact statistics, and an animated invitation to touch the screen.</li>
+<li><strong>Interaction</strong>: Touching anywhere wakes the interface and transitions to Screen 2.</li>
+</ul>
+<h3 id="screen-2-user-identification">Screen 2: User Identification</h3>
+<ul>
+<li><strong>Purpose</strong>: Fast customer identification via Mobile Number or Email Address.</li>
+<li><strong>Interaction</strong>: The user enters their phone number or email using the built-in on-screen keypad. The system checks whether the user is a returning recycler or a new visitor.</li>
+</ul>
+<h3 id="screen-3-verification-registration">Screen 3: Verification &amp; Registration</h3>
+<ul>
+<li><strong>Purpose</strong>: Authenticates the user and prevents fraudulent deposits.</li>
+<li><strong>Interaction</strong>: A 4-digit code is dispatched to the user's WhatsApp or Email. Once entered, returning users see their existing credit balance, while new users have an account created automatically.</li>
+</ul>
+<h3 id="screen-4-device-category-damage-stage">Screen 4: Device Category &amp; Damage Stage</h3>
+<ul>
+<li><strong>Purpose</strong>: Classifies the electronic item being deposited.</li>
+<li><strong>Categories</strong>: Mobile Phones, Laptops, Tablets, Accessories, Circuit Boards / PCBs.</li>
+<li><strong>Damage Stages</strong>:</li>
+<li><strong>Stage 1 (Minor Wear)</strong>: Device is functional with cosmetic scratches (Awards highest points: 25 pts).</li>
+<li><strong>Stage 2 (Functional / Screen Damage)</strong>: Broken display, faulty battery, or unresponsive touch (Awards 15 pts).</li>
+<li><strong>Stage 3 (Total Crash / Scrap)</strong>: Non-working electronics, shattered glass, water-damaged logic boards (Awards 5 pts).</li>
+</ul>
+<h3 id="screen-5-camera-inspection-photo-capture">Screen 5: Camera Inspection &amp; Photo Capture</h3>
+<ul>
+<li><strong>Purpose</strong>: Records proof-of-deposit images for inventory and quality auditing.</li>
+<li><strong>Interaction</strong>: The live camera feed displays targeting brackets. The user taps "Capture Photo" to snap an image, with options to retake or proceed.</li>
+</ul>
+<h3 id="screen-6-deposit-summary-condition-notes">Screen 6: Deposit Summary &amp; Condition Notes</h3>
+<ul>
+<li><strong>Purpose</strong>: Provides a transparent overview of the transaction before the item is dropped into the bin.</li>
+<li><strong>Interaction</strong>: The user reviews the device category, damage stage, points to be earned, and captured photo, with an optional on-screen keyboard to enter model remarks or notes.</li>
+</ul>
+<h3 id="screen-7-collection-door-opening-completion">Screen 7: Collection Door Opening &amp; Completion</h3>
+<ul>
+<li><strong>Purpose</strong>: Unlocks the physical intake door, awards points, and delivers the digital receipt.</li>
+<li><strong>Interaction</strong>:<br />
+  1. The Raspberry Pi activates the servo motor, opening the intake door to a 90° angle.<br />
+  2. A visual and audio countdown timer holds the door open for <strong>15 seconds</strong> for deposit.<br />
+  3. The door smoothly returns to the closed position and locks.<br />
+  4. An animated progress bar updates the user's EcoCredit balance and displays their unique tracking ID (e.g., <code>devct_32</code>).<br />
+  5. The kiosk automatically resets to Screen 1 after 8 seconds, ready for the next recycler.</li>
+</ul>
+<hr />
+<h2 id="6-ecocredit-reward-system-milestone-bonus">6. EcoCredit Reward System &amp; Milestone Bonus</h2>
+<p>The kiosk uses a gamified incentive structure:</p>
+<h3 id="61-base-reward-points">6.1 Base Reward Points</h3>
+<ul>
+<li><strong>Stage 1 (Minor Wear)</strong>: <strong>25 EcoCredits</strong></li>
+<li><strong>Stage 2 (Moderate Damage)</strong>: <strong>15 EcoCredits</strong></li>
+<li><strong>Stage 3 (Total Crash)</strong>: <strong>5 EcoCredits</strong></li>
+</ul>
+<h3 id="62-eco-milestone-progress-bonus-multiplier">6.2 Eco Milestone Progress &amp; Bonus Multiplier</h3>
+<p>Every deposit contributes toward the user's <strong>100% Green Milestone</strong>:<br />
+- <strong>Stage 1</strong>: Contributes <strong>+35%</strong> toward the milestone (est. 95% material recovery).<br />
+- <strong>Stage 2</strong>: Contributes <strong>+25%</strong> toward the milestone (est. 70% material recovery).<br />
+- <strong>Stage 3</strong>: Contributes <strong>+15%</strong> toward the milestone (est. 45% material recovery).</p>
+<p>When a user's cumulative progress reaches or exceeds <strong>100%</strong>:<br />
+- An automatic <strong>+10 Bonus EcoCredit reward</strong> is granted instantly.<br />
+- The user's progress bar resets, starting progress toward the next milestone reward.</p>
+<hr />
+<h2 id="7-digital-notifications-whatsapp-email-receipts">7. Digital Notifications (WhatsApp &amp; Email Receipts)</h2>
+<p>To avoid printing paper receipts, the kiosk issues digital receipts asynchronously:</p>
+<h3 id="71-whatsapp-receipt-ultramsg-gateway">7.1 WhatsApp Receipt (UltraMsg Gateway)</h3>
+<p>A formatted WhatsApp message is dispatched immediately upon deposit containing:<br />
+- 🌿 <strong>Official Confirmation Header</strong> from Encycle Bank / Kites Robotics.<br />
+- <strong>Unique Tracking Code</strong>: e.g., <code>devct_32</code>.<br />
+- <strong>Item Summary</strong>: Category, Selected Condition Stage, and Recovery Ratio.<br />
+- <strong>EcoCredits Earned</strong>: Breakdown of base points, milestone bonuses, and new total balance.<br />
+- <strong>Timestamp &amp; Location</strong>: Verified drop-off confirmation.</p>
+<h3 id="72-email-certificate-gmail-smtp">7.2 Email Certificate (Gmail SMTP)</h3>
+<p>A responsive HTML certificate is sent to the user's inbox featuring:<br />
+- High-contrast visual deposit certificate.<br />
+- Illustrated milestone progress ring.<br />
+- Summary of hazardous materials diverted from domestic landfills.</p>
+<hr />
+<h2 id="8-raspberry-pi-setup-deployment-guide">8. Raspberry Pi Setup &amp; Deployment Guide</h2>
+<h3 id="81-prerequisites">8.1 Prerequisites</h3>
+<ul>
+<li>Raspberry Pi 4 Model B (2GB or higher) or Raspberry Pi 5.</li>
+<li>Raspberry Pi OS (64-bit Bookworm with desktop).</li>
+<li>16GB+ MicroSD Card or USB SSD.</li>
+<li>Touch display and USB camera connected.</li>
+<li>Servo motor wired to GPIO 18 with external 5V power.</li>
+</ul>
+<hr />
+<h3 id="82-automated-1-script-installation">8.2 Automated 1-Script Installation</h3>
+<p>On the Raspberry Pi terminal, run:</p>
+<pre><code class="language-bash">cd /home/pi/Raspberry
+chmod +x scripts/*.sh
+sudo bash scripts/setup_pi.sh
+</code></pre>
+<h4 id="what-the-setup-script-does-automatically">What the setup script does automatically:</h4>
+<ol>
+<li>Installs all system dependencies (<code>python3-picamera2</code>, <code>pigpio</code>, <code>chromium-browser</code>, <code>unclutter</code>, <code>sqlite3</code>).</li>
+<li>Configures user permissions for GPIO and camera interfaces.</li>
+<li>Enables and starts the <code>pigpiod</code> hardware PWM daemon.</li>
+<li>Creates a Python virtual environment and installs application libraries.</li>
+<li>Registers the kiosk as a <code>systemd</code> background service so it starts automatically on power-up.</li>
+<li>Sets up Chromium in fullscreen kiosk mode (<code>--kiosk</code>) and hides the mouse cursor using <code>unclutter</code>.</li>
+</ol>
+<hr />
+<h3 id="83-system-commands-reference">8.3 System Commands Reference</h3>
+<pre><code class="language-bash"># Check kiosk service status
+sudo systemctl status ewaste-kiosk
+
+# Restart kiosk backend
+sudo systemctl restart ewaste-kiosk
+
+# View real-time application logs
+journalctl -u ewaste-kiosk -f
+
+# Test the camera hardware
+python3 scripts/test_pi_camera.py
+
+# Test the servo door motor (opens for 5s and closes)
+python3 scripts/test_pi_servo.py
+</code></pre>
+<hr />
+<h2 id="9-feature-implementation-expansion-guide">9. Feature Implementation &amp; Expansion Guide</h2>
+<p>This section explains how to add the five most requested features to the kiosk.</p>
+<hr />
+<h3 id="91-feature-1-ai-computer-vision-e-waste-classifier-yolo-tflite">9.1 Feature 1: AI Computer Vision E-Waste Classifier (YOLO / TFLite)</h3>
+<h4 id="the-concept">The Concept:</h4>
+<p>When an item is placed in the inspection bay on Screen 5, the Raspberry Pi analyzes the camera feed to automatically identify the electronic device (smartphone, laptop, PCB) and recommend the correct damage stage, eliminating human error.</p>
+<h4 id="implementation-architecture">Implementation Architecture:</h4>
+<pre><code>Camera Frame ──► Lightweight YOLOv8 Nano / TFLite Model ──► Category &amp; Stage Prediction ──► UI Auto-Selection
+</code></pre>
+<h4 id="steps-to-implement">Steps to Implement:</h4>
+<ol>
+<li><strong>Model Selection</strong>: Use an optimized YOLOv8 Nano model (<code>yolov8n.tflite</code>) trained on electronic waste images (phones, screens, circuit boards).</li>
+<li><strong>Inference Engine</strong>: Run the model using TensorFlow Lite Runtime (<code>tflite-runtime</code>) on the Raspberry Pi CPU (takes ~80-120ms per inference).</li>
+<li><strong>Backend Integration</strong>: Create an inference endpoint that takes the captured camera image, executes model prediction, and returns the detected category with a confidence score.</li>
+<li><strong>UI Update</strong>: On Screen 5, the interface automatically pre-selects the recognized device category and highlights the detected damage stage.</li>
+</ol>
+<hr />
+<h3 id="92-feature-2-precision-weight-measurement-hx711-digital-scale">9.2 Feature 2: Precision Weight Measurement (HX711 Digital Scale)</h3>
+<h4 id="the-concept_1">The Concept:</h4>
+<p>A digital load cell installed beneath the intake hopper measures the exact weight in grams of deposited electronics. This prevents empty-shell deposits and allows bonus points to be awarded for heavy electronic components (such as transformers or circuit boards).</p>
+<h4 id="implementation-architecture_1">Implementation Architecture:</h4>
+<pre><code>Intake Hopper ──► 4x Strain Gauge Load Cells ──► HX711 Amplifier ──► RPi GPIO (Pins 5 &amp; 6) ──► Grams Calculation
+</code></pre>
+<h4 id="steps-to-implement_1">Steps to Implement:</h4>
+<ol>
+<li><strong>Hardware Setup</strong>: Mount a 5kg or 10kg load cell under the deposit floor. Wire the HX711 amplifier to Raspberry Pi GPIO Pin 5 (Data) and Pin 6 (Clock).</li>
+<li><strong>Calibration</strong>: Use a known weight (e.g., a 200g phone) to determine the scale multiplier and tare the base weight on startup.</li>
+<li><strong>Anti-Fraud Logic</strong>: If the recorded weight is less than 50 grams for a smartphone, the kiosk displays a prompt asking the user to confirm the deposit before the door unlocks.</li>
+</ol>
+<hr />
+<h3 id="93-feature-3-rfid-nfc-smart-card-tap-to-recycle">9.3 Feature 3: RFID / NFC Smart Card Tap-to-Recycle</h3>
+<h4 id="the-concept_2">The Concept:</h4>
+<p>University student IDs, corporate employee badges, or municipality green cards can be tapped on an NFC reader to log in instantly, bypassing phone number entry and OTP verification.</p>
+<h4 id="implementation-architecture_2">Implementation Architecture:</h4>
+<pre><code>RFID Card Tap ──► RC522 SPI Module ──► Raspberry Pi SPI Bus ──► Database Lookup ──► Instant User Sign-In
+</code></pre>
+<h4 id="steps-to-implement_2">Steps to Implement:</h4>
+<ol>
+<li><strong>Hardware Setup</strong>: Connect an RC522 RFID reader to the Raspberry Pi's SPI header pins (SDA on Pin 24, SCK on Pin 23, MOSI on Pin 19, MISO on Pin 21).</li>
+<li><strong>Database Field</strong>: Add an <code>rfid_card_id</code> column to the <code>users</code> table.</li>
+<li><strong>Sign-In Flow</strong>: A background listener watches for card taps. When a known card ID is detected on Screen 1, the kiosk immediately authenticates the user and jumps straight to Screen 4 (Category Selection).</li>
+</ol>
+<hr />
+<h3 id="94-feature-4-instant-cashback-via-upi-digital-wallet">9.4 Feature 4: Instant Cashback via UPI / Digital Wallet</h3>
+<h4 id="the-concept_3">The Concept:</h4>
+<p>In addition to or instead of loyalty EcoCredits, recyclers can choose to receive direct monetary cash payouts sent straight to their UPI address (e.g., <code>phone@upi</code>) or bank account.</p>
+<h4 id="implementation-architecture_3">Implementation Architecture:</h4>
+<pre><code>Screen 6 Review ──► Select &quot;Instant Cash&quot; ──► Enter UPI ID ──► Payout Gateway API ──► Direct Bank Transfer
+</code></pre>
+<h4 id="steps-to-implement_3">Steps to Implement:</h4>
+<ol>
+<li><strong>Payout Rate Table</strong>: Define monetary scrap rates per condition stage (e.g., Stage 1: ₹250, Stage 2: ₹120, Stage 3: ₹40).</li>
+<li><strong>Payment Gateway Integration</strong>: Connect the backend to a verified payout API (such as Cashfree Payouts, RazorpayX, or Stripe Connect).</li>
+<li><strong>Verification</strong>: Once the deposit door closes securely, the payment API executes the payout transfer and sends confirmation via WhatsApp and SMS.</li>
+</ol>
+<hr />
+<h3 id="95-feature-5-central-cloud-dashboard-fleet-synchronization">9.5 Feature 5: Central Cloud Dashboard &amp; Fleet Synchronization</h3>
+<h4 id="the-concept_4">The Concept:</h4>
+<p>A fleet of kiosks deployed across universities, shopping malls, and corporate offices synchronizes all deposit records to a central cloud dashboard in real time, allowing centralized monitoring of bin capacity, user activity, and total collected e-waste.</p>
+<h4 id="implementation-architecture_4">Implementation Architecture:</h4>
+<pre><code>Local Raspberry Pi ──► Background Sync Worker ──► HTTPS / REST ──► Central Cloud Database (PostgreSQL / Supabase)
+</code></pre>
+<h4 id="steps-to-implement_4">Steps to Implement:</h4>
+<ol>
+<li><strong>Sync Flag</strong>: Add an <code>is_synced</code> column to the local SQLite database.</li>
+<li><strong>Background Daemon</strong>: A lightweight background thread checks every 5 minutes for un-synced transactions.</li>
+<li><strong>Offline Resilience</strong>: If the internet connection goes down, transactions continue saving locally without interruption. When internet connectivity is restored, the daemon automatically uploads all accumulated records.</li>
+</ol>
+<hr />
+<h2 id="10-owner-administration-maintenance-diagnostics">10. Owner Administration, Maintenance &amp; Diagnostics</h2>
+<h3 id="101-accessing-owner-diagnostics">10.1 Accessing Owner Diagnostics</h3>
+<p>The kiosk includes a hidden administrative menu for testing hardware and adjusting settings on-site:<br />
+1. On any screen, locate and tap the <strong><code>🛠️ Kiosk Tools</code></strong> button at the bottom-right corner.<br />
+2. When prompted, enter the Master Owner PIN: <strong><code>8611</code></strong>.</p>
+<h3 id="102-available-diagnostic-tools">10.2 Available Diagnostic Tools</h3>
+<ul>
+<li><strong>Test Fire Trapdoor</strong>: Triggers a full open-hold-close door actuation cycle to verify motor mechanics.</li>
+<li><strong>Dynamic Points Configuration</strong>: Adjust the EcoCredits awarded for Stages 1, 2, and 3 without restarting the system.</li>
+<li><strong>Camera Live Diagnostic</strong>: Check camera sensor health, active resolution, and switch between CSI camera and USB webcam.</li>
+<li><strong>Transaction Audit Log</strong>: View all deposited devices and customer profiles directly on the touchscreen.</li>
+<li><strong>System Reboot / Shutdown</strong>: Safely power down or reboot the Raspberry Pi without pulling the power cable.</li>
+</ul>
+<hr />
+<h2 id="11-summary-support-contact">11. Summary &amp; Support Contact</h2>
+<p>The Encycle Bank kiosk system is designed to provide reliable, standalone e-waste collection powered by the Raspberry Pi.</p>
+<ul>
+<li><strong>Developer</strong>: Kites Robotics</li>
+<li><strong>System Version</strong>: 3.0.0 (Raspberry Pi Edition)</li>
+<li><strong>Primary Support</strong>: Hardware and software technical maintenance team at Kites Robotics.</li>
+</ul>
+</div>
+
+</body>
+</html>

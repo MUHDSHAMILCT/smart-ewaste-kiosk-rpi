@@ -1,0 +1,18 @@
+[Unit]
+Description=Encycle Bank E-Waste Kiosk Application
+After=network.target
+
+[Service]
+Type=simple
+User=kites-asisproject
+WorkingDirectory=/home/kites-asisproject/Raspberry
+Environment="MOCK_HARDWARE=false"
+Environment="CAMERA_MODE=webcam"
+Environment="FLASK_DEBUG=false"
+Environment="PYTHONIOENCODING=utf-8"
+ExecStart=/home/kites-asisproject/Raspberry/venv/bin/python app.py
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
